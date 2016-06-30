@@ -8,7 +8,11 @@
 var baseLoginUrl = {{url_for('AuthOAuthView.login')}};
 var baseRegisterUrl = {{url_for('AuthOAuthView.login')}};
 
-var currentSelection = "";
+{% if providers|length is equalto 1 %}
+    var currentSelection = "{{(providers|first).name}}";
+{% else %}
+    var currentSelection = "";
+{% endif %}
 
 function set_openid(url, pr)
 {
@@ -41,7 +45,11 @@ function register() {
                 </div>
                 <div style="padding-top:30px" class="panel-body" >
 
-                    <div class="help-block">{{_("Please choose one of the following providers:")}}</div>
+                    {% if providers|length is equalto 1 %}
+                        <div class="help-block">{{_("Login or register with:")}}</div>
+                    {% else %}
+                        <div class="help-block">{{_("Please choose one of the following providers:")}}</div>
+                    {% endif %}
                     <div class="center-block btn-group btn-group-lg" role="group">
                         <center>
                         {% for pr in providers %}
